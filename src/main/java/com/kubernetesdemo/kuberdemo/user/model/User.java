@@ -1,6 +1,7 @@
-package com.kubernetesdemo.kuberdemo.user;
+package com.kubernetesdemo.kuberdemo.user.model;
 
-import com.kubernetesdemo.kuberdemo.article.Article;
+import com.kubernetesdemo.kuberdemo.article.model.Article;
+import com.kubernetesdemo.kuberdemo.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @Builder
 @ToString(exclude = {"id"})
 @Entity(name="users")
-public class User {
+public class User extends BaseEntity {
     @Id
     @Column(name="user_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +25,7 @@ public class User {
     private String phone;
     private String job;
 
-    @OneToMany(mappedBy = "writer")
+    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
     private List<Article> articles;
 }
 

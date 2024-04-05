@@ -1,8 +1,9 @@
-package com.kubernetesdemo.kuberdemo.article;
+package com.kubernetesdemo.kuberdemo.article.model;
 
 
-import com.kubernetesdemo.kuberdemo.board.Board;
-import com.kubernetesdemo.kuberdemo.user.User;
+import com.kubernetesdemo.kuberdemo.board.model.Board;
+import com.kubernetesdemo.kuberdemo.common.BaseEntity;
+import com.kubernetesdemo.kuberdemo.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,14 +13,13 @@ import lombok.*;
 @Builder
 @Getter
 @ToString
-public class Article {
+public class Article extends BaseEntity {
    @Id
    @Column(name = "article_id", nullable = false)
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
    private String title;
    private String content;
-   private String registerDate;
 
    @ManyToOne
    @JoinColumn(name = "board_id")

@@ -1,6 +1,7 @@
-package com.kubernetesdemo.kuberdemo.board;
+package com.kubernetesdemo.kuberdemo.board.model;
 
-import com.kubernetesdemo.kuberdemo.article.Article;
+import com.kubernetesdemo.kuberdemo.article.model.Article;
+import com.kubernetesdemo.kuberdemo.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @Builder
 @Getter
 @ToString
-public class Board {
+public class Board extends BaseEntity {
     @Id
     @Column(name = "board_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +22,7 @@ public class Board {
     private String boardName;
     private String boardType;
 
-    @OneToMany(mappedBy ="board")
+    @OneToMany(mappedBy ="board", fetch = FetchType.LAZY)
     private List<Article> articles;
 
 }
