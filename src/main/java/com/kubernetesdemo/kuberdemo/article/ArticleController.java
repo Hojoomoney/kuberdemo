@@ -1,19 +1,20 @@
 package com.kubernetesdemo.kuberdemo.article;
 
+import com.kubernetesdemo.kuberdemo.article.model.ArticleDto;
 import com.kubernetesdemo.kuberdemo.article.service.ArticleService;
-import com.kubernetesdemo.kuberdemo.common.component.MessengerVo;
+import com.kubernetesdemo.kuberdemo.common.component.Messenger;
 import com.kubernetesdemo.kuberdemo.common.component.PageRequestVo;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
+
 @ApiResponses(value = {
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
         @ApiResponse(responseCode = "404", description = "Customer not found")})
@@ -21,37 +22,36 @@ import java.util.Map;
 @RestController
 @RequestMapping(path = "/api/articles")
 @RequiredArgsConstructor
+@Slf4j
 public class ArticleController {
     private final ArticleService service;
 
-    @PostMapping(path = "")
-    public ResponseEntity<MessengerVo> save(PageRequestVo vo) throws SQLException {
-        service.save(null);
-        return ResponseEntity.ok(new MessengerVo());
+    @PostMapping(path = "/save")
+    public ResponseEntity<Messenger> save(@RequestBody ArticleDto dto) throws SQLException {
+        log.info("입력받은 정보 : {}", dto );
+        return ResponseEntity.ok(service.save(dto));
     }
-    @DeleteMapping(path = "/{id}")
-    public ResponseEntity<MessengerVo> deleteById(@PathVariable long id){
-        service.deleteById(0L);
-        return ResponseEntity.ok(new MessengerVo());
+    @GetMapping(path = "/list")
+    public ResponseEntity<List<ArticleDto>> findAll() throws SQLException {
+        log.info("입력받은 정보 : {}" );
+        return ResponseEntity.ok(service.findAll());
     }
-    @GetMapping(path = "")
-    public ResponseEntity<MessengerVo> findAll(PageRequestVo vo) throws SQLException {
-        service.findAll();
-        return ResponseEntity.ok(new MessengerVo());
+    @DeleteMapping(path = "/delete")
+    public ResponseEntity<Messenger> deleteById(@RequestParam Long id){
+        log.info("입력받은 정보 : {}", id );
+        return ResponseEntity.ok(service.deleteById(id));
     }
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<MessengerVo> findById(@PathVariable Long id){
-        service.findById(0L);
-        return ResponseEntity.ok(new MessengerVo());
+    @GetMapping(path = "/detail")
+    public ResponseEntity<Optional<ArticleDto>> findById(@RequestParam Long id){
+        log.info("입력받은 정보 : {}", id );
+        return ResponseEntity.ok(service.findById(id));
     }
     @GetMapping(path = "/count")
-    public ResponseEntity<MessengerVo> count(){
-        service.count();
-        return ResponseEntity.ok(new MessengerVo());
+    public ResponseEntity<Long> count(){
+        return ResponseEntity.ok(service.count());
     }
     @GetMapping(path = "/exists/{id}")
-    public ResponseEntity<MessengerVo> existById(@PathVariable long id){
-        service.existById(0L);
-        return ResponseEntity.ok(new MessengerVo());
+    public ResponseEntity<Boolean> existById(@PathVariable Long id){
+        return ResponseEntity.ok(service.existById(id));
     }
 }

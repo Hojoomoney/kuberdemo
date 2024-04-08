@@ -2,6 +2,7 @@ package com.kubernetesdemo.kuberdemo.board.service;
 
 import com.kubernetesdemo.kuberdemo.board.model.BoardDto;
 import com.kubernetesdemo.kuberdemo.board.repository.BoardRepository;
+import com.kubernetesdemo.kuberdemo.common.component.Messenger;
 import com.kubernetesdemo.kuberdemo.common.component.PageRequestVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,13 +18,20 @@ public class BoardServiceImpl implements BoardService {
 
 
     @Override
-    public BoardDto save(BoardDto t) throws SQLException {
-        return entityToDto(Optional.of(repository.save(dtoToEntity(t))));
+    public Messenger save(BoardDto t) throws SQLException {
+        entityToDto(Optional.of(repository.save(dtoToEntity(t))));
+        return new Messenger();
     }
 
     @Override
-    public void deleteById(Long id) {
+    public Messenger deleteById(Long id) {
         repository.deleteById(id);
+        return new Messenger();
+    }
+
+    @Override
+    public Messenger modify(BoardDto boardDto) {
+        return null;
     }
 
     @Override
