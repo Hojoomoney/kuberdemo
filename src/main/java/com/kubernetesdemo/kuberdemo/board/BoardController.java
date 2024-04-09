@@ -1,5 +1,6 @@
 package com.kubernetesdemo.kuberdemo.board;
 
+import com.kubernetesdemo.kuberdemo.board.model.BoardDto;
 import com.kubernetesdemo.kuberdemo.board.service.BoardService;
 import com.kubernetesdemo.kuberdemo.common.component.Messenger;
 import com.kubernetesdemo.kuberdemo.common.component.PageRequestVo;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @ApiResponses(value = {
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
@@ -20,20 +22,18 @@ import java.sql.SQLException;
 @RequiredArgsConstructor
 public class BoardController {
     private final BoardService service;
-    @PostMapping(path = "")
-    public ResponseEntity<Messenger> save(PageRequestVo vo) throws SQLException {
-        service.save(null);
-        return ResponseEntity.ok(new Messenger());
+    @PostMapping(path = "/save")
+    public ResponseEntity<Messenger> save(BoardDto dto) throws SQLException {
+        return ResponseEntity.ok(service.save(dto));
     }
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Messenger> deleteById(@PathVariable long id){
         service.deleteById(0L);
         return ResponseEntity.ok(new Messenger());
     }
-    @GetMapping(path = "")
-    public ResponseEntity<Messenger> findAll(PageRequestVo vo) throws SQLException {
-        service.findAll();
-        return ResponseEntity.ok(new Messenger());
+    @GetMapping(path = "/list")
+    public ResponseEntity<List<BoardDto>> findAll() throws SQLException {
+        return ResponseEntity.ok(service.findAll());
     }
     @GetMapping(path = "/{id}")
     public ResponseEntity<Messenger> findById(@PathVariable Long id){

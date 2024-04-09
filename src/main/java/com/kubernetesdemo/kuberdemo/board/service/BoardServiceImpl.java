@@ -19,7 +19,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Messenger save(BoardDto t) throws SQLException {
-        entityToDto(Optional.of(repository.save(dtoToEntity(t))));
+        repository.save(dtoToEntity(t));
         return new Messenger();
     }
 
@@ -36,13 +36,13 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public List<BoardDto> findAll() throws SQLException {
-        //return repository.findAll(vo);
-        return null;
+        return repository.findAll().stream().map(this::entityToDto).toList();
     }
 
     @Override
     public Optional<BoardDto> findById(Long id) {
-        return Optional.of(entityToDto(repository.findById(id)));
+//        return Optional.of(entityToDto(repository.findById(id)));
+        return null;
     }
 
     @Override
