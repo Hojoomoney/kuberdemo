@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<Optional<UserDto>> findById(@RequestParam Long id) {
+    public ResponseEntity<Optional<UserDto>> findById(@RequestParam("id") Long id) {
         log.info("입력받은 정보 : {}", id );
         return ResponseEntity.ok(service.findById(id));
     }

@@ -42,7 +42,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Optional<ArticleDto> findById(Long id) {
-        return Optional.empty();
+        return repository.findById(id).map(this::entityToDto);
     }
 
     @Override
@@ -56,12 +56,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<UserDto> findArticlesByTitle(String title) {
+    public List<ArticleDto> findArticlesByTitle(String title) {
         throw new UnsupportedOperationException("Unimplemented method 'updatePassword'");
     }
 
     @Override
-    public List<UserDto> findArticlesByContent(String content) {
+    public List<ArticleDto> findArticlesByContent(String content) {
         throw new UnsupportedOperationException("Unimplemented method 'updatePassword'");
     }
 }

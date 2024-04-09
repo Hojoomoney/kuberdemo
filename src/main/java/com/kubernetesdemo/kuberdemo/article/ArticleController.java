@@ -42,7 +42,7 @@ public class ArticleController {
         return ResponseEntity.ok(service.deleteById(id));
     }
     @GetMapping(path = "/detail")
-    public ResponseEntity<Optional<ArticleDto>> findById(@RequestParam Long id){
+    public ResponseEntity<Optional<ArticleDto>> findById(@RequestParam("id") Long id){
         log.info("입력받은 정보 : {}", id );
         return ResponseEntity.ok(service.findById(id));
     }
