@@ -48,14 +48,14 @@ public class UserController {
 
 
     @PutMapping("/modify")
-    public ResponseEntity<Messenger> modify(@RequestBody UserDto param) {
-        log.info("입력받은 정보 : {}", param );
-        return ResponseEntity.ok(service.modify(param));
+    public ResponseEntity<Messenger> modify(@RequestBody UserDto userDto) {
+        log.info("입력받은 정보 : {}", userDto );
+        return ResponseEntity.ok(service.modify(userDto));
     }
 
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Messenger> deleteById(@RequestParam Long id) {
+    public ResponseEntity<Messenger> deleteById(@RequestParam("id") Long id) {
         log.info("입력받은 정보 : {}", id );
         return ResponseEntity.ok(service.deleteById(id));
     }
@@ -77,8 +77,9 @@ public class UserController {
         log.info("입력받은 정보 : {}", param );
         return ResponseEntity.ok(service.login(param));
     }
-    @GetMapping(path = "/exists/{id}")
-    public ResponseEntity<Boolean> existById(@PathVariable Long id){
+    @GetMapping(path = "/exists")
+    public ResponseEntity<Boolean> existById(@RequestParam Long id){
+        log.info("입력받은 정보 : {}", id );
         return ResponseEntity.ok(service.existById(id));
     }
 }

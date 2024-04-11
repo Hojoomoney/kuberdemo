@@ -1,5 +1,7 @@
 package com.kubernetesdemo.kuberdemo.board.service;
 
+import com.kubernetesdemo.kuberdemo.article.model.Article;
+import com.kubernetesdemo.kuberdemo.board.model.Board;
 import com.kubernetesdemo.kuberdemo.board.model.BoardDto;
 import com.kubernetesdemo.kuberdemo.board.repository.BoardRepository;
 import com.kubernetesdemo.kuberdemo.common.component.Messenger;
@@ -31,7 +33,11 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Messenger modify(BoardDto boardDto) {
-        return null;
+        Board board = repository.findById(boardDto.getId()).orElseThrow(null);
+        board.setBoardName(boardDto.getBoardName());
+        board.setBoardType(boardDto.getBoardType());
+        repository.save(board);
+        return new Messenger();
     }
 
     @Override

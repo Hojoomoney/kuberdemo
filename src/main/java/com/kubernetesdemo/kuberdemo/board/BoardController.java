@@ -1,5 +1,6 @@
 package com.kubernetesdemo.kuberdemo.board;
 
+import com.kubernetesdemo.kuberdemo.article.model.ArticleDto;
 import com.kubernetesdemo.kuberdemo.board.model.BoardDto;
 import com.kubernetesdemo.kuberdemo.board.service.BoardService;
 import com.kubernetesdemo.kuberdemo.common.component.Messenger;
@@ -28,10 +29,9 @@ public class BoardController {
     public ResponseEntity<Messenger> save(BoardDto dto) throws SQLException {
         return ResponseEntity.ok(service.save(dto));
     }
-    @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Messenger> deleteById(@PathVariable long id){
-        service.deleteById(0L);
-        return ResponseEntity.ok(new Messenger());
+    @DeleteMapping(path = "/delete")
+    public ResponseEntity<Messenger> deleteById(@RequestParam Long id){
+        return ResponseEntity.ok(service.deleteById(id));
     }
     @GetMapping(path = "/list")
     public ResponseEntity<List<BoardDto>> findAll() throws SQLException {
@@ -47,9 +47,14 @@ public class BoardController {
         service.count();
         return ResponseEntity.ok(new Messenger());
     }
-    @GetMapping(path = "/exists/{id}")
-    public ResponseEntity<Messenger> existById(@PathVariable long id){
-        service.existById(0L);
-        return ResponseEntity.ok(new Messenger());
+    @GetMapping(path = "/exists")
+    public ResponseEntity<Boolean> existById(@RequestParam Long id){
+        return ResponseEntity.ok(service.existById(id));
+    }
+
+    @PutMapping("/modify")
+    public ResponseEntity<Messenger> modify(@RequestBody BoardDto boardDto) {
+        log.info("입력받은 정보 : {}", boardDto );
+        return ResponseEntity.ok(service.modify(boardDto));
     }
 }

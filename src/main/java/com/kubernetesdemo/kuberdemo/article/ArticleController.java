@@ -4,6 +4,7 @@ import com.kubernetesdemo.kuberdemo.article.model.ArticleDto;
 import com.kubernetesdemo.kuberdemo.article.service.ArticleService;
 import com.kubernetesdemo.kuberdemo.common.component.Messenger;
 import com.kubernetesdemo.kuberdemo.common.component.PageRequestVo;
+import com.kubernetesdemo.kuberdemo.user.model.UserDto;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
@@ -50,8 +51,14 @@ public class ArticleController {
     public ResponseEntity<Long> count(){
         return ResponseEntity.ok(service.count());
     }
-    @GetMapping(path = "/exists/{id}")
-    public ResponseEntity<Boolean> existById(@PathVariable Long id){
+    @GetMapping(path = "/exists")
+    public ResponseEntity<Boolean> existById(@RequestParam Long id){
         return ResponseEntity.ok(service.existById(id));
+    }
+
+    @PutMapping("/modify")
+    public ResponseEntity<Messenger> modify(@RequestBody ArticleDto articleDto) {
+        log.info("입력받은 정보 : {}", articleDto );
+        return ResponseEntity.ok(service.modify(articleDto));
     }
 }

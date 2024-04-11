@@ -18,11 +18,12 @@ public class Board extends BaseEntity {
     @Column(name = "board_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Setter
     private String boardName;
+    @Setter
     private String boardType;
 
-    @OneToMany(mappedBy ="board", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy ="board", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Article> articles;
 
 }

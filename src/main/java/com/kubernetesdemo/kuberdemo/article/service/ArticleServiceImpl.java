@@ -1,8 +1,10 @@
 package com.kubernetesdemo.kuberdemo.article.service;
 
+import com.kubernetesdemo.kuberdemo.article.model.Article;
 import com.kubernetesdemo.kuberdemo.article.model.ArticleDto;
 import com.kubernetesdemo.kuberdemo.article.repository.ArticleRepository;
 import com.kubernetesdemo.kuberdemo.common.component.Messenger;
+import com.kubernetesdemo.kuberdemo.user.model.User;
 import com.kubernetesdemo.kuberdemo.user.model.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,7 +34,11 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Messenger modify(ArticleDto articleDto) {
-       throw new UnsupportedOperationException("Unimplemented method 'updatePassword'");
+        Article article = repository.findById(articleDto.getId()).orElseThrow(null);
+        article.setTitle(articleDto.getTitle());
+        article.setContent(articleDto.getContent());
+        repository.save(article);
+        return new Messenger();
     }
 
     @Override

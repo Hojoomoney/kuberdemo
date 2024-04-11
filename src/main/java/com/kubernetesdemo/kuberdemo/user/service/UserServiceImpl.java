@@ -51,8 +51,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Messenger modify(UserDto user) {
-        throw new UnsupportedOperationException("Unimplemented method 'updatePassword'");
+    public Messenger modify(UserDto userDto) {
+//        User user = dtoToEntity(userDto);
+        User user = repository.findById(userDto.getId()).orElseThrow(null);
+        user.setPassword(userDto.getPassword());
+        user.setPhone(userDto.getPhone());
+        user.setJob(userDto.getJob());
+        repository.save(user);
+        return new Messenger();
     }
 
     @Override
