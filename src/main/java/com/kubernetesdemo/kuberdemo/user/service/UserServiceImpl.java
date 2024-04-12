@@ -6,6 +6,7 @@ import com.kubernetesdemo.kuberdemo.user.model.UserDto;
 import com.kubernetesdemo.kuberdemo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,13 +22,30 @@ public class UserServiceImpl implements UserService {
     @Override
     public Messenger save(UserDto t) throws SQLException {
         entityToDto((repository.save(dtoToEntity(t))));
-        return new Messenger();
+        return Messenger.builder()
+                .message(repository.existsById(t.getId()) ? "SUCCESS" : "FAILURE")
+                .build();
     }
 
     @Override
     public Messenger deleteById(Long id) {
         repository.deleteById(id);
-        return new Messenger();
+        return Messenger.builder()
+                .message(repository.existsById(id) ? "FAILURE" : "SUCCESS")
+                .build();
+//        return Messenger.builder()
+//                .message("Success")
+//                .build();
+        // return Messenger.builder()
+        //        .message(
+        //            Stream.of(id)
+        //            .filter(i -> userRepository.existsById(i))
+        //            .peek(i -> userRepository.deleteById(i))
+        //            .map(i -> "SUCCESS")
+        //            .findAny()
+        //            .orElseGet(() -> "FAILURE")
+        //        )
+        //        .build();
     }
 
     @Override
@@ -58,7 +76,22 @@ public class UserServiceImpl implements UserService {
         user.setPhone(userDto.getPhone());
         user.setJob(userDto.getJob());
         repository.save(user);
-        return new Messenger();
+        return Messenger.builder()
+                .message(repository.existsById(user.getId()) ? "SUCCESS" : "FAILURE")
+                .build();
+
+        //return Messenger.builder()
+        //        .message(
+        //            findUserByUsername(userDto.getUsername()).stream()
+        //            .peek(i -> i.setPassword(userDto.getPassword()))
+        //            .peek(i -> i.setName(userDto.getName()))
+        //            .peek(i -> i.setPhone(userDto.getPhone()))
+        //            .peek(i -> i.setJob(userDto.getJob()))
+        //            .peek(i -> userRepository.save(i))
+        //            .map(i -> "SUCCESS").findAny()
+        //            .orElseGet(() -> "FAILURE")
+        //        )
+        //        .build();
     }
 
     @Override
