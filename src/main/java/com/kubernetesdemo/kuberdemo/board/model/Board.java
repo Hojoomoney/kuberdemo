@@ -23,7 +23,7 @@ public class Board extends BaseEntity {
     @Setter
     private String boardType;
 
-    @OneToMany(mappedBy ="board", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy ="board", cascade = CascadeType.ALL)
     private List<Article> articles;
 
 }

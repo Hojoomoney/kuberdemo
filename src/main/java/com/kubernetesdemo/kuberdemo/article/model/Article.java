@@ -31,4 +31,11 @@ public class Article extends BaseEntity {
    @JoinColumn(name = "writer_id")
    private User writer;
 
+   public static Article of(String title, String content){
+      Article article = new Article();
+      article.title = title;
+      article.content = content;
+      return article;
+   }
+
 }

@@ -1,6 +1,9 @@
 package com.kubernetesdemo.kuberdemo.user.service;
 
+import com.kubernetesdemo.kuberdemo.common.component.JwtProvider;
 import com.kubernetesdemo.kuberdemo.common.component.Messenger;
+import com.kubernetesdemo.kuberdemo.common.enums.ErrorCode;
+import com.kubernetesdemo.kuberdemo.common.exception.CustomException;
 import com.kubernetesdemo.kuberdemo.user.model.User;
 import com.kubernetesdemo.kuberdemo.user.model.UserDto;
 import com.kubernetesdemo.kuberdemo.user.repository.UserRepository;
@@ -17,7 +20,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository repository;
-
+    private final JwtProvider jwtProvider;
 
     @Override
     public Messenger save(UserDto t) throws SQLException {
@@ -70,7 +73,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Messenger modify(UserDto userDto) {
-//        User user = dtoToEntity(userDto);
+   //     User user = dtoToEntity(userDto);
         User user = repository.findById(userDto.getId()).orElseThrow(null);
         user.setPassword(userDto.getPassword());
         user.setPhone(userDto.getPhone());
@@ -110,7 +113,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Messenger login(UserDto param) {
-        throw new UnsupportedOperationException("Unimplemented method 'login'");
+    public Messenger login(UserDto dto) {
+//        Optional<User> user = Optional.ofNullable(findUserByUsername(dto.getUsername())
+//                .orElseThrow(() -> new CustomException(ErrorCode.LOGIN_FAILED)));
+
+        User user = findUserByUsername(dto.getUsername()).orElseThrow(() -> new CustomException(ErrorCode.LOGIN_FAILED.getStatus(), "존재하지 않는 계정입니다");
+
+     //   boolean flag = repository.findByUsername(dto.getUsername()).get().getPassword().equals(dto.getPassword());
+
+        boolean flag = user.getPassword().equals(dto.getPassword());
+
+        return Messenger.builder()
+                .message(flag ? "SUCCESS" : "FAILURE")
+                .token(flag ? jwtProvider.createToken(dto) : "none")
+                .build();
     }
 }

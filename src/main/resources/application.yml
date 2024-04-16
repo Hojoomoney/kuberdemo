@@ -13,7 +13,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
@@ -30,3 +30,7 @@ logging:
       hibernate:
         SQL: debug
         type: trace
+jwt:
+  iss : rod.com
+  exp : 24 * 60 * 60 * 1000
+  secret : rodqkerknaoldlrkdlkaalkblmarlakrelkralekrajlrkejalkwqlekrj

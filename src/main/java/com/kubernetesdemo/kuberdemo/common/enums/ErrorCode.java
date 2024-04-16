@@ -1,14 +1,17 @@
 package com.kubernetesdemo.kuberdemo.common.enums;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+
 @RequiredArgsConstructor
 @Getter
 public enum ErrorCode {
-    AUTHENTICATION_FAILED(401, "AUTH_001", "AUTHENTICATION_FAILED"), LOGIN_FAILED(401, "AUTH_002", "LOGIN_FAILED"),
-    ACCESS_DENIED(401, "AUTH_003", "ACCESS_DENIED"),
-    TOKEN_GENERATION_FAILED(500, "AUTH_005", "TOKEN_GENERATION_FAILED");
+    AUTHENTICATION_FAILED(HttpStatus.FORBIDDEN.value(),"AUTHENTICATION_FAILED"),
+    LOGIN_FAILED(HttpStatus.NOT_FOUND.value(),"LOGIN_FAILED"),
+    ACCESS_DENIED(HttpStatus.UNAUTHORIZED.value(), "ACCESS_DENIED"),
+    TOKEN_GENERATION_FAILED(HttpStatus.UNAUTHORIZED.value(),"TOKEN_GENERATION_FAILED");
     private final int status;
-    private final String code;
     private final String message;
 }
